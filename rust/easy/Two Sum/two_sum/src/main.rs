@@ -1,13 +1,19 @@
+use std::collections::HashMap;
+
 struct Solution {}
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut map: HashMap<i32, usize> = HashMap::new();
+        
         for i in 0..nums.len() {
-            for j in (i+1)..nums.len() {
-                if nums[i] + nums[j] == target {
-                    return vec![i as i32, j as i32]
-                }
+            let complement = target - nums[i];
+            
+            if let Some(ci) = map.get(&complement) {
+                return vec![*ci as i32, i as i32]
             }
+
+            map.insert(nums[i], i);
         }
             
 
