@@ -16,41 +16,33 @@ impl Solution {
     }
 
     pub fn roman_to_int(s: String) -> i32 {
-        let mut numbers: Vec<i32> = Vec::new();
+        let vec: Vec<i32> = s.chars()
+            .map(|c:char|
+                c.to_ascii_uppercase()
+            ).map(|c:char| 
+                Solution::roman_char_to_number(&c).expect("Should be roman letter.")
+            ).collect();
 
-        for c in s.chars() {
-            let c_up: char = c.to_ascii_uppercase();
-            let number = Solution::roman_char_to_number(&c_up)
-                .expect("Should be roman letter.");
-            
-            numbers.push(number);
-        }
-
-        let numbers_length = numbers.len();
         let mut result: i32 = 0;
-        let mut skip_one: bool = false;
-        for i in 0..numbers_length {
+        let mut skip_one = false;
+
+        for i in 0..vec.len() {    
             if skip_one {
                 skip_one = false;
                 continue;
             }
-            if i + 1 == numbers_length {
-                result = result + numbers[i];
+            if i + 1 == vec.len() {
+                result = result + vec[i];
                 continue;
             } 
-            if (numbers[i] < numbers[i+1]) {
-                result = result - numbers[i] + numbers[i+1];
+            if vec[i] < vec[i+1] {
+                result = result - vec[i] + vec[i+1];
                 skip_one = true;
                 continue;
             }
-            if (numbers[i] == numbers[i+1]) {
-                result = result + numbers[i];
-                continue;
-            }
 
-            result = result + numbers[i];
+            result = result + vec[i];
         }
-
 
         result
     }
