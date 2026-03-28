@@ -2,18 +2,20 @@ struct Solution {}
 
 impl Solution {
     pub fn max_profit(prices: Vec<i32>) -> i32 {
+        if prices.len() == 0 {
+            return 0;
+        }
+
         let mut max_profit: i32 = 0;
-
-        for i in 0..prices.len() {
-            for j in 1..(prices.len()) {
-                if j <= i {
-                    continue;
-                }
-                let profit = prices[j]-prices[i];
-                if profit > max_profit {
-                    max_profit = profit;
-                }
-
+        let mut prev_lowest: i32 = prices[0]; 
+        
+        for i in 1..prices.len() {
+            let profit = prices[i] - prev_lowest;
+            if profit > max_profit {
+                max_profit = profit;
+            }
+            if prices[i] < prev_lowest {
+                prev_lowest = prices[i];
             }
         }
 
